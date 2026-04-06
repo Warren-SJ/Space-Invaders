@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
 project(SpaceInvaders LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
@@ -33,12 +33,16 @@ add_executable(SpaceInvaders
     src/space_invaders.cpp
     src/spaceship.cpp
     src/lasers.cpp
+    src/block.cpp
+    src/obstacle.cpp
 )
 
 target_include_directories(SpaceInvaders PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/headers
     ${RAYLIB_INCLUDE_DIR}
 )
+
+target_compile_definitions(SpaceInvaders PRIVATE _UCRT)
 
 target_link_libraries(SpaceInvaders PRIVATE
     ${RAYLIB_LIBRARY}
