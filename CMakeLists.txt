@@ -35,6 +35,7 @@ add_executable(SpaceInvaders
     src/lasers.cpp
     src/block.cpp
     src/obstacle.cpp
+    src/alien.cpp
 )
 
 target_include_directories(SpaceInvaders PRIVATE

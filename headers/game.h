@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "spaceship.h"
 #include "obstacle.h"
+#include "alien.h"
 
 class Game
 {
@@ -14,5 +15,9 @@ public:
 private:
     Spaceship spaceship;
     std::vector<Obstacle> obstacles;
+    std::vector<Alien> aliens;
+    int alienDirection;
+    std::vector<Alien> createAliens();
     std::vector<Obstacle> createObstacles();
+    void moveAliens();
 };
