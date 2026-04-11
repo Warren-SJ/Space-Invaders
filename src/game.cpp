@@ -2,12 +2,7 @@
 
 Game::Game()
 {
-    obstacles = createObstacles();
-    aliens = createAliens();
-    alienDirection = 1;
-    mysteryShip.spawn();
-    timeSinceLastAlienShot = 0.0f;
-    nextMysterySpawnTime = GetTime() + mysteryShipSpawnInterval;
+    initGame();
 }
 
 Game::~Game()
@@ -35,6 +30,10 @@ void Game::draw()
 
 void Game::handleInput()
 {
+    if (!run)
+    {
+        return;
+    }
     if (IsKeyDown(KEY_LEFT))
     {
         spaceship.moveLeft();
@@ -51,6 +50,16 @@ void Game::handleInput()
 
 void Game::update()
 {
+    if (!run)
+    {
+        if (IsKeyPressed(KEY_ENTER))
+        {
+            reset();
+            initGame();
+        }
+        return;
+    }
+
     spaceship.update();
     moveAliens();
     alienShoot();
@@ -93,6 +102,26 @@ std::vector<Obstacle> Game::createObstacles()
         obstacles.emplace_back(Obstacle{Vector2{offsetX, float(GetScreenHeight()) - 100}});
     }
     return obstacles;
+}
+
+void Game::initGame()
+{
+    obstacles = createObstacles();
+    aliens = createAliens();
+    alienDirection = 1;
+    mysteryShip.spawn();
+    timeSinceLastAlienShot = 0.0f;
+    nextMysterySpawnTime = GetTime() + mysteryShipSpawnInterval;
+    lives = 3;
+    run = true;
+}
+
+void Game::reset()
+{
+    spaceship.reset();
+    aliens.clear();
+    alienLasers.clear();
+    obstacles.clear();
 }
 
 void Game::moveAliens()
@@ -210,6 +239,11 @@ void Game::checkForCollisions()
         if (CheckCollisionRecs(it->getRect(), spaceship.getRect()))
         {
             hit = true;
+            lives--;
+            if (lives <= 0)
+            {
+                gameOver();
+            }
         }
 
         if (!hit)
@@ -251,7 +285,7 @@ void Game::checkForCollisions()
     {
         for (auto& obstacle: obstacles)
         {
-            for (auto blockIt  = obstacles.blocks.begin(); blockIt != obstacle.blocks.end(); )
+            for (auto blockIt  = obstacle.blocks.begin(); blockIt != obstacle.blocks.end(); )
             {
                 if (CheckCollisionRecs(alien.getRect(), blockIt->getRect()))
                 {
@@ -265,9 +299,14 @@ void Game::checkForCollisions()
         }
         if (CheckCollisionRecs(alien.getRect(), spaceship.getRect()))
         {
-            // Game Over
+            gameOver();
         }
     }
+}
+
+void Game::gameOver()
+{
+    run = false;
 }
 
 void Game::alienShoot()

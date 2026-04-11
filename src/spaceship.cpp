@@ -66,6 +66,12 @@ Rectangle Spaceship::getRect()
     return {position.x, position.y, float(spaceshipTexture.width), float(spaceshipTexture.height)};
 }
 
+void Spaceship::reset()
+{
+    position = { float(GetScreenWidth() - spaceshipTexture.width)/2, float(GetScreenHeight() - spaceshipTexture.height) };
+    lasers.clear();
+}
+
 std::vector<Laser>& Spaceship::getLasers()
 {
     return lasers;

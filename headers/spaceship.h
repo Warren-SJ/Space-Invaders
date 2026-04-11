@@ -15,6 +15,7 @@ public:
 	void fire();
     void update();
 	Rectangle getRect();
+	void reset();
 	std::vector<Laser>& getLasers();
 
 private:
