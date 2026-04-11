@@ -1,8 +1,10 @@
 #pragma once
+#include <vector>
 #include "raylib.h"
 #include "spaceship.h"
 #include "obstacle.h"
 #include "alien.h"
+#include "mysteryship.h"
 
 class Game
 {
@@ -17,7 +19,14 @@ private:
     std::vector<Obstacle> obstacles;
     std::vector<Alien> aliens;
     int alienDirection;
+    MysteryShip mysteryShip;
+    std::vector<Laser> alienLasers;
     std::vector<Alien> createAliens();
     std::vector<Obstacle> createObstacles();
     void moveAliens();
+    void moveDownAliens(int distance);
+    void alienShoot();
+    void deleteLaser();
+    constexpr static float alienLaserShootInterval = 0.35f;
+    float timeSinceLastAlienShot;
 };

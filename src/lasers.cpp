@@ -28,3 +28,8 @@ bool Laser::isActive()
     } 
     return true;
 }
+
+Vector2 Laser::getPosition()
+{
+    return position;
+}

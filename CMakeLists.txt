@@ -12,7 +12,6 @@ if (NOT RAYLIB_INCLUDE_DIR)
     find_path(RAYLIB_INCLUDE_DIR raylib.h
         PATHS
             "C:/raylib/raylib/src"
-            "C:/raylib/include"
     )
 endif()
 
@@ -20,7 +19,6 @@ if (NOT RAYLIB_LIBRARY)
     find_library(RAYLIB_LIBRARY NAMES raylib
         PATHS
             "C:/raylib/raylib/src"
-            "C:/raylib/lib"
     )
 endif()
 
@@ -30,12 +28,13 @@ endif()
 
 add_executable(SpaceInvaders
     src/game.cpp
-    src/space_invaders.cpp
+    space_invaders.cpp
     src/spaceship.cpp
     src/lasers.cpp
     src/block.cpp
     src/obstacle.cpp
     src/alien.cpp
+    src/mysteryship.cpp
 )
 
 target_include_directories(SpaceInvaders PRIVATE
