@@ -14,6 +14,8 @@ public:
 	void moveRight();
 	void fire();
     void update();
+	Rectangle getRect();
+	std::vector<Laser>& getLasers();
 
 private:
     Texture2D spaceshipTexture;

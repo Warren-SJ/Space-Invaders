@@ -28,5 +28,8 @@ private:
     void alienShoot();
     void deleteLaser();
     constexpr static float alienLaserShootInterval = 0.35f;
+    constexpr static float mysteryShipSpawnInterval = 30.0f;
     float timeSinceLastAlienShot;
+    double nextMysterySpawnTime;
+    void checkForCollisions();
 };

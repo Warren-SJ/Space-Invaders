@@ -53,13 +53,20 @@ void Spaceship::update()
 		if (!laser->isActive())
 		{
 			laser = lasers.erase(laser);
-		} else
+		}
+		else
 		{
 			++laser;
 		}
 	}
-	for (auto& laser : lasers)
-	{
-		laser.update();
-	}
+}
+
+Rectangle Spaceship::getRect()
+{
+    return {position.x, position.y, float(spaceshipTexture.width), float(spaceshipTexture.height)};
+}
+
+std::vector<Laser>& Spaceship::getLasers()
+{
+    return lasers;
 }

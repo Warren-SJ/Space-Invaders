@@ -13,11 +13,28 @@ MysteryShip::~MysteryShip()
 
 void MysteryShip::spawn()
 {
-    position.y = 35;
+    position.y = GetRandomValue(20, 60);
     int side = GetRandomValue(0, 1);
-    position.x = side * (GetScreenWidth() - texture.width) + (side - 1) * -texture.width;
-    speed = side == 0 ? 3 : -3;
+    if (side == 0)
+    {
+        position.x = -texture.width;
+        speed = 3;
+    }
+    else
+    {
+        position.x = GetScreenWidth();
+        speed = -3;
+    }
     alive = true;
+}
+
+Rectangle MysteryShip::getRect()
+{
+    if (alive)
+    {
+        return {position.x, position.y, float(texture.width), float(texture.height)};
+    }
+    return {0, 0, 0, 0};
 }
 
 void MysteryShip::update()

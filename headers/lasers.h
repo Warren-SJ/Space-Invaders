@@ -10,6 +10,7 @@ class Laser
         void draw();
         bool isActive();
         Vector2 getPosition();
+        Rectangle getRect();
     private:
         Vector2 position;
         int speed;

@@ -7,6 +7,7 @@ Game::Game()
     alienDirection = 1;
     mysteryShip.spawn();
     timeSinceLastAlienShot = 0.0f;
+    nextMysterySpawnTime = GetTime() + mysteryShipSpawnInterval;
 }
 
 Game::~Game()
@@ -58,6 +59,15 @@ void Game::update()
         laser.update();
     }
     mysteryShip.update();
+
+    double currentTime = GetTime();
+    if (!mysteryShip.alive && currentTime >= nextMysterySpawnTime)
+    {
+        mysteryShip.spawn();
+        nextMysterySpawnTime = currentTime + mysteryShipSpawnInterval;
+    }
+
+    checkForCollisions();
 }
 
 std::vector<Alien> Game::createAliens()
@@ -121,6 +131,141 @@ void Game::deleteLaser()
         else
         {
             ++it;
+        }
+    }
+}
+
+void Game::checkForCollisions()
+{
+    // spaceship lasers
+    auto& lasers = spaceship.getLasers();
+    for (auto it = lasers.begin(); it != lasers.end(); )
+    {
+        bool hit = false;
+
+        for (auto alienIt = aliens.begin(); alienIt != aliens.end(); )
+        {
+            if (CheckCollisionRecs(it->getRect(), alienIt->getRect()))
+            {
+                alienIt = aliens.erase(alienIt);
+                hit = true;
+                break;
+            }
+            else
+            {
+                ++alienIt;
+            }
+        }
+
+        if (!hit)
+        {
+            for (auto& obstacle : obstacles)
+            {
+                for (auto blockIt = obstacle.blocks.begin(); blockIt != obstacle.blocks.end(); )
+                {
+                    if (CheckCollisionRecs(it->getRect(), blockIt->getRect()))
+                    {
+                        blockIt = obstacle.blocks.erase(blockIt);
+                        hit = true;
+                        break;
+                    }
+                    else
+                    {
+                        ++blockIt;
+                    }
+                }
+
+                if (hit)
+                {
+                    break;
+                }
+            }
+        }
+
+        if (!hit)
+        {
+            if (CheckCollisionRecs(it->getRect(), mysteryShip.getRect()))
+            {
+                mysteryShip.alive = false;
+                hit = true;
+            }
+        }
+
+        if (hit)
+        {
+            it = lasers.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
+    // alien lasers
+    auto& alienlasers = alienLasers;
+    for (auto it = alienlasers.begin(); it != alienlasers.end(); )
+    {
+        bool hit = false;
+
+        if (CheckCollisionRecs(it->getRect(), spaceship.getRect()))
+        {
+            hit = true;
+        }
+
+        if (!hit)
+        {
+            for (auto& obstacle : obstacles)
+            {
+                for (auto blockIt = obstacle.blocks.begin(); blockIt != obstacle.blocks.end(); )
+                {
+                    if (CheckCollisionRecs(it->getRect(), blockIt->getRect()))
+                    {
+                        blockIt = obstacle.blocks.erase(blockIt);
+                        hit = true;
+                        break;
+                    }
+                    else
+                    {
+                        ++blockIt;
+                    }
+                }
+
+                if (hit)
+                {
+                    break;
+                }
+            }
+        }
+        if (hit)
+        {
+            it = alienLasers.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+
+    // alien and obstacles
+    for (auto& alien: aliens)
+    {
+        for (auto& obstacle: obstacles)
+        {
+            for (auto blockIt  = obstacles.blocks.begin(); blockIt != obstacle.blocks.end(); )
+            {
+                if (CheckCollisionRecs(alien.getRect(), blockIt->getRect()))
+                {
+                    blockIt = obstacle.blocks.erase(blockIt);
+                }
+                else
+                {
+                    ++blockIt;
+                }
+            }
+        }
+        if (CheckCollisionRecs(alien.getRect(), spaceship.getRect()))
+        {
+            // Game Over
         }
     }
 }

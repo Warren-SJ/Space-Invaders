@@ -6,7 +6,6 @@ Laser::Laser(Vector2 position, int speed) : position(position), speed(speed)
 
 Laser::~Laser()
 {
-
 }
 
 void Laser::update()
@@ -32,4 +31,9 @@ bool Laser::isActive()
 Vector2 Laser::getPosition()
 {
     return position;
+}
+
+Rectangle Laser::getRect()
+{
+    return {position.x, position.y, 4, 15};
 }
