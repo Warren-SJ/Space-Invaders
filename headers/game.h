@@ -15,6 +15,7 @@ public:
     void handleInput();
     void update();
     bool run;
+    int lives;
 private:
     Spaceship spaceship;
     std::vector<Obstacle> obstacles;
@@ -22,7 +23,6 @@ private:
     int alienDirection;
     MysteryShip mysteryShip;
     std::vector<Laser> alienLasers;
-    int lives;
     std::vector<Alien> createAliens();
     std::vector<Obstacle> createObstacles();
     void reset();

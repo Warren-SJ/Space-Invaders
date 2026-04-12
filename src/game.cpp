@@ -1,5 +1,4 @@
 #include "game.h"
-
 Game::Game()
 {
     initGame();
@@ -67,6 +66,7 @@ void Game::update()
     {
         laser.update();
     }
+    deleteLaser();
     mysteryShip.update();
 
     double currentTime = GetTime();
@@ -99,7 +99,7 @@ std::vector<Obstacle> Game::createObstacles()
     for (int i = 0; i < 4; i++)
     {
         float offsetX = (i + 1) * gap + i * obstacleWidth;
-        obstacles.emplace_back(Obstacle{Vector2{offsetX, float(GetScreenHeight()) - 100}});
+        obstacles.emplace_back(Obstacle{Vector2{offsetX, float(GetScreenHeight()) - 200}});
     }
     return obstacles;
 }
@@ -128,7 +128,7 @@ void Game::moveAliens()
 {
     for (auto& alien: aliens)
     {
-        if (alien.position.x <= 0 || alien.position.x + alien.alienImages[alien.type - 1].width >= GetScreenWidth())
+        if (alien.position.x <= 25 || alien.position.x + alien.alienImages[alien.type - 1].width + 25 >= GetScreenWidth())
         {
             alienDirection *= -1;
             moveDownAliens(4);
@@ -151,9 +151,9 @@ void Game::moveDownAliens(int distance)
 
 void Game::deleteLaser()
 {
-    for(auto it = alienLasers.begin(); it != alienLasers.end(); )
+    for (auto it = alienLasers.begin(); it != alienLasers.end(); )
     {
-        if(it->getPosition().y < 0 || it->getPosition().y > GetScreenHeight())
+        if (it->isActive() == false)
         {
             it = alienLasers.erase(it);
         }
@@ -320,6 +320,5 @@ void Game::alienShoot()
         (float(shooter.position.x + shooter.alienImages[shooter.type - 1].width / 2), float(shooter.position.y + shooter.alienImages[shooter.type - 1].height)),
          6));
     timeSinceLastAlienShot = currentTime;
-    deleteLaser();
     }
 }

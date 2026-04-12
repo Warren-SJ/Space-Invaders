@@ -2,7 +2,7 @@
 
 MysteryShip::MysteryShip()
 {
-    texture = LoadTexture("Graphics/mystery.png");
+    texture = LoadTexture("assets/mystery.png");
     alive = false;
 }
 
@@ -17,12 +17,12 @@ void MysteryShip::spawn()
     int side = GetRandomValue(0, 1);
     if (side == 0)
     {
-        position.x = -texture.width;
+        position.x =  25;
         speed = 3;
     }
     else
     {
-        position.x = GetScreenWidth();
+        position.x = GetScreenWidth() - 25 - texture.width;
         speed = -3;
     }
     alive = true;
@@ -42,7 +42,7 @@ void MysteryShip::update()
     if (alive)
     {
         position.x += speed;
-        if (position.x < -texture.width || position.x > GetScreenWidth())
+        if (position.x < 25 || position.x > GetScreenWidth() - texture.width - 25)
             alive = false;
     }
 }

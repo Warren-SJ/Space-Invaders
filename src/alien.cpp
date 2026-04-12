@@ -7,7 +7,7 @@ Alien::Alien(int type, Vector2 position): type(type), position(position)
 {
     if (alienImages[type - 1].id == 0)
     {
-        std::string path = "Graphics/alien_" + std::to_string(type) + ".png";
+        std::string path = "assets/alien_" + std::to_string(type) + ".png";
         alienImages[type - 1] = LoadTexture(path.c_str());
     }
 }

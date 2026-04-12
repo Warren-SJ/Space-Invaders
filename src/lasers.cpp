@@ -10,8 +10,11 @@ Laser::~Laser()
 
 void Laser::update()
 {
-    position.y += speed;
-    draw();
+    if (isActive())
+    {
+        position.y += speed;
+        draw();
+    }
 }
 
 void Laser::draw()
@@ -21,7 +24,7 @@ void Laser::draw()
 
 bool Laser::isActive()
 {
-    if (position.y < 0 || position.y > GetScreenHeight())
+    if (position.y < 25 || position.y >= 715)
     {
         return false;
     } 
