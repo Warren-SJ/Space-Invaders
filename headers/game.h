@@ -19,6 +19,7 @@ public:
     int lives;
     int score;
     int highScore;
+    Music music;
 private:
     Spaceship spaceship;
     std::vector<Obstacle> obstacles;
@@ -42,4 +43,5 @@ private:
     void gameOver();
     void saveHighScore();
     int loadHighScore();
+    Sound explosion;
 };

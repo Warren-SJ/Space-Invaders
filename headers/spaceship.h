@@ -22,4 +22,5 @@ private:
     Texture2D spaceshipTexture;
 	Vector2 position;
 	std::vector<Laser> lasers;
+	Sound laserSound;
 };

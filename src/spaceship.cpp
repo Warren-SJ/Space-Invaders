@@ -5,11 +5,13 @@ Spaceship::Spaceship()
 {
 	spaceshipTexture = LoadTexture("assets/spaceship.png");
 	position = { float(GetScreenWidth() - spaceshipTexture.width)/2 , float(GetScreenHeight() - spaceshipTexture.height - 100) };
+	laserSound = LoadSound("assets/laser.ogg");
 }
 
 Spaceship::~Spaceship()
 {
 	UnloadTexture(spaceshipTexture);
+	UnloadSound(laserSound);
 }
 
 Vector2 Spaceship::GetPosition()
@@ -43,6 +45,7 @@ void Spaceship::moveRight()
 void Spaceship::fire()
 {
 	lasers.emplace_back(Laser({position.x + spaceshipTexture.width/2, position.y - 20}, -5));
+	PlaySound(laserSound);
 }
 
 void Spaceship::update()

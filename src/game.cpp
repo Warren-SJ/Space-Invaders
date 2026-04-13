@@ -2,11 +2,16 @@
 Game::Game()
 {
     initGame();
+    music = LoadMusicStream("assets/music.ogg");
+    explosion = LoadSound("assets/explosion.ogg");
+    PlayMusicStream(music);
 }
 
 Game::~Game()
 {
     Alien::unloadImages();
+    UnloadMusicStream(music);
+    UnloadSound(explosion);
 }
 
 void Game::draw()
@@ -44,6 +49,7 @@ void Game::handleInput()
     if (IsKeyPressed(KEY_SPACE))
     {
         spaceship.fire();
+        score -= 20;
     }
 }
 
@@ -180,6 +186,7 @@ void Game::checkForCollisions()
             {
                 score += alienIt->getType() * 100;
                 alienIt = aliens.erase(alienIt);
+                PlaySound(explosion);
                 hit = true;
                 break;
             }
@@ -220,6 +227,7 @@ void Game::checkForCollisions()
             {
                 score += 500;
                 mysteryShip.alive = false;
+                PlaySound(explosion);
                 hit = true;
             }
         }
@@ -244,6 +252,7 @@ void Game::checkForCollisions()
         {
             hit = true;
             lives--;
+            PlaySound(explosion);
             if (lives <= 0)
             {
                 gameOver();

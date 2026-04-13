@@ -11,6 +11,7 @@ int main()
 	int windowHeight = 700;
 	int offset = 50;
 	InitWindow(windowWidth + offset, windowHeight + 2 * offset, "Space Invaders");
+	InitAudioDevice();
 	Font font = LoadFontEx("assets/monogram.ttf", 64, 0, 0);
 	Texture2D spaceshipTexture = LoadTexture("assets/spaceship.png");
 	SetTargetFPS(60);
@@ -19,6 +20,7 @@ int main()
 	while (!WindowShouldClose())
 	{
 		BeginDrawing();
+		UpdateMusicStream(game.music);
 		ClearBackground(background);
 		DrawRectangleRoundedLines({10, 10, 780, 780}, 0.18f, 20, yellow);
 		DrawLineEx({25,730}, {775,730}, 3, yellow);
@@ -42,6 +44,7 @@ int main()
 		game.update();
 		EndDrawing();
 	}
-
+	CloseAudioDevice();
+	UnloadFont(font);
 	CloseWindow();
 }
