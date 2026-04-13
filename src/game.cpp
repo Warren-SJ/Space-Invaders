@@ -113,6 +113,8 @@ void Game::initGame()
     timeSinceLastAlienShot = 0.0f;
     nextMysterySpawnTime = GetTime() + mysteryShipSpawnInterval;
     lives = 3;
+    score = 0;
+    highScore = loadHighScore();
     run = true;
 }
 
@@ -176,6 +178,7 @@ void Game::checkForCollisions()
         {
             if (CheckCollisionRecs(it->getRect(), alienIt->getRect()))
             {
+                score += alienIt->getType() * 100;
                 alienIt = aliens.erase(alienIt);
                 hit = true;
                 break;
@@ -215,6 +218,7 @@ void Game::checkForCollisions()
         {
             if (CheckCollisionRecs(it->getRect(), mysteryShip.getRect()))
             {
+                score += 500;
                 mysteryShip.alive = false;
                 hit = true;
             }
@@ -307,6 +311,37 @@ void Game::checkForCollisions()
 void Game::gameOver()
 {
     run = false;
+    if (score > highScore)
+    {
+        saveHighScore();
+    }
+}
+
+void Game::saveHighScore()
+{
+    std::ofstream file("highscore.txt");
+    if (file.is_open())
+    {
+        file << score;
+        file.close();
+    }
+    else
+    {
+        return;
+    }
+}
+
+int Game::loadHighScore()
+{
+    int loadedHighScore = 0;
+    std::ifstream file("highscore.txt");
+    if (file.is_open())
+    {
+        file >> loadedHighScore;
+        file.close();
+        return loadedHighScore;
+    }
+    return 0;
 }
 
 void Game::alienShoot()

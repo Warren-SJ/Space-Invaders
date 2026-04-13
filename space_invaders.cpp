@@ -35,6 +35,8 @@ int main()
 			DrawTextEx(font, "GAME OVER", {50, 740}, 32, 2, yellow);
 			DrawTextEx(font, "Press ENTER to Restart", {450, 750}, 24, 2, yellow);
 		}
+		DrawTextEx(font, TextFormat("SCORE\n%06d", game.score), {50, 50}, 32, 2, yellow);
+		DrawTextEx(font, TextFormat("HIGH-SCORE\n%06d", game.highScore), {600, 50}, 32, 2, yellow);
 		game.draw();
 		game.handleInput();
 		game.update();

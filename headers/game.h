@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <fstream>
 #include "raylib.h"
 #include "spaceship.h"
 #include "obstacle.h"
@@ -16,6 +17,8 @@ public:
     void update();
     bool run;
     int lives;
+    int score;
+    int highScore;
 private:
     Spaceship spaceship;
     std::vector<Obstacle> obstacles;
@@ -37,4 +40,6 @@ private:
     double nextMysterySpawnTime;
     void checkForCollisions();
     void gameOver();
+    void saveHighScore();
+    int loadHighScore();
 };
